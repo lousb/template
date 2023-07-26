@@ -1,0 +1,12 @@
+.section-one{
+    background-color: var(--secondary-color);
+    min-height: 100vh;
+}
+.section-two{
+    background-color: var(--primary-color);
+    min-height: 100vh;
+}
+.section-three{
+    background-color: var(--third-color);
+    min-height: 100vh
+}

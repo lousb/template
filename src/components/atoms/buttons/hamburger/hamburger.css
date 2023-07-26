@@ -1,0 +1,26 @@
+.hamburger-button{
+    cursor: pointer;
+    transition: all 500ms ease;
+    overflow: hidden;
+}
+
+.hamburger-button *{
+
+    transition: all 500ms ease-out;
+}
+.hamburger-button *{
+
+    transition-delay: 600ms;
+}
+.active.hamburger-button *{
+
+    transition-delay: 0ms;
+}
+
+.hamburger-button:hover{
+    transform: scaleX(1.1);
+    transform-origin: right center;
+}
+.hamburger-button.active .line-1, .hamburger-button.active .line-3  {
+    transform: translateX(100%);
+}
