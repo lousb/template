@@ -6,29 +6,53 @@ export const opacity = {
     initial:{
         opacity: 0
     },
-    open:{
+    open:(i)=>({
         opacity:1,
-        transition:{duration:0.65, delay: 0.55}
-    },
-    closed:{
+        transition: {
+            duration: i === 'svg-delay' ? 1 : 0.55,
+            delay: i === 'svg-delay' ? 1 : 0.55
+          }
+    }),
+    closed:(i)=>({
         opacity:0,
-        transition:{duration:0.65},
+        transition: {
+            duration: 0.55,
+            delay: i === 'svg-delay' ? 0.4 : 0.1
+          }
         
-    }
+    })
+
+    
 }
 
+export const SVGHeight ={
+    initial:{
+        marginTop:64,
+        height:0
+    },
+    open:{
+        height:'11.7vw',
+        marginTop:10,
+        transition: {...transition, delay:0.45}
+    },
+    closed:{
+        height:0,
+        marginTop:64,
+        transition: {...transition}
+    }
+}
 // Define height animation variants with initial, open, and closed states
 export const height ={
     initial:{
-        height:120
+        height:0
     },
     open:{
-        height:'100vh',
+        height:'0vh',
         transition,
     },
     closed:{
-        height:120,
-        transition: {...transition, delay:0.2}
+        height:0,
+        transition: {...transition, delay:0.5}
     }
 }
 
@@ -41,12 +65,12 @@ export const translate ={
     open:(i)=>({
         y:'0%',
         opacity:1,
-        transition: {...transition, delay:i[0]}
+        transition: {...transition, delay: i*0.03 + 0.05}
     }),
     closed:(i)=>({
         y:'150%',
         opacity:0,
-        transition: {...transition, delay:i[1]}
+        transition: {...transition, delay: i*0.01 + 0.1}
 
     })
 }
@@ -54,18 +78,33 @@ export const translate ={
 // Define margintop animation variants with initial, open, and closed states
 export const margintop = {
     initial: {
-      y: '0px'
+      y: '18px'
     },
     open: (i) => ({
-        y: i === 0 ? '18px' : '10px',
+        y: i === 0 ? '24px' : '18px',
       opacity: 1,
       transition: { ...transition }
     }),
     closed: (i) => ({
-      y: '0px',
+      y: '18px',
       opacity: i === 1 ? 1 : i,
       transition: { ...transition, delay:[0.2] },
       
     })
   };
 
+
+
+  export const background ={
+    initial:{
+        y:'-100%'
+    },
+    open:{
+        y:'0%',
+        transition,
+    },
+    closed:{
+        y:'-100%',
+        transition: {...transition, delay:0.6}
+    }
+}

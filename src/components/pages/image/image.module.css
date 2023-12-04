@@ -1,0 +1,43 @@
+.project-title{
+    margin-top:120px;
+    line-height: 120px;
+    margin:0px;
+    margin-bottom: -10px;
+    
+
+}
+.projectPageSection1{
+    width:92%;
+    height:90svh;
+    margin: 4%;
+    display: flex;
+    gap:1.5%;
+    background-color: white;
+    position: relative;
+}
+.projectPageSection1 > div{
+    width: 49.2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    height: 100%;
+}
+
+.imageWrap{
+
+    width: 100%;
+    position: relative;
+    justify-content: center !important;
+}
+.imageWrap img{
+    width: 100%;
+}
+.buttonWrap{
+    position: absolute;
+    bottom:0 !important;
+    width: 100% !important;
+    display: flex;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: end;
+}

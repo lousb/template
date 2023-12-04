@@ -1,116 +1,124 @@
 import React, { useState, useEffect } from "react";
 import styles from './../header.module.css';
-import { motion } from "framer-motion";
-import { opacity, translate, margintop } from "../anim";
+import { motion, AnimatePresence } from "framer-motion";
+import { opacity, translate, margintop, SVGHeight } from "../anim";
+import Clock from "../../../../atoms/Clock/clock";
 
 function Nav({ isActive }) {
-  // Arrays of links for the navigation menu
-  const socialLinks = ["Instagram", "Facebook", "Twitter"];
-  const column2Links = ["Leave a Review", "Find Us"];
-  const column3Links = ["Site Name © 2023 ", '', "A Louis Wyeth Site"];
 
-  // Find the maximum count of links in any array
-  const maxLinkCount = Math.max(socialLinks.length, column2Links.length, column3Links.length);
+  const socialLinks = [
+    { text: "Contact", link: "/contact" },
+    { text: "Instagram", link: "https://www.instagram.com/" },
+    { text: "Youtube", link: "https://www.youtube.com/" },
+  ];
 
-  // State variable to store the current year
-  const [currentYear, setCurrentYear] = useState(new Date().getFullYear());
+  const navigationLinks = [
+    { text: "Home", link: "/" },
+    { text: "About", link: "/about" },
+    { text: "Archive", link: "/films" },
+    { text: "Contact", link: "/contact" },
+    { text: "Reference Peace", link: "/reference-peace", class:'reference-peace-link' },
+  ];
 
-  // Function to update the current year
-  const updateYear = () => {
-    setCurrentYear(new Date().getFullYear());
-  };
+  const maxLinkCount = Math.max(navigationLinks.length, socialLinks.length);
 
-  // UseEffect hook to update the current year every second
-  useEffect(() => {
-    const intervalId = setInterval(updateYear, 1000);
-    return () => clearInterval(intervalId); // Clean up the interval when the component unmounts
-  }, []);
 
-  // Function to display current Sydney time
-  const Clock = () => {
-    const [time, setTime] = useState(new Date());
 
-    useEffect(() => {
-      const interval = setInterval(() => {
-        setTime(new Date());
-      }, 1000);
-      return () => clearInterval(interval);
-    }, []);
 
-    // Convert the time to Sydney timezone
-    const sydneyTime = new Date(time.toLocaleString('en-US', { timeZone: 'Australia/Sydney' }));
-    const hour = sydneyTime.getHours().toString().padStart(2, '0');
-    const minute = sydneyTime.getMinutes().toString().padStart(2, '0');
 
-    return (
-      // Framer Motion span for the animated time display
-      <span variants={opacity} animate={!isActive ? 'closed' : 'open'} className={`${styles["menu-time-func"]} `}>
-        {hour}<span className={`${styles.colon}`}>:</span>{minute}
-      </span>
-    );
-  };
 
-  // Function to animate each character of the link text
-  const getChar = (title) => {
-    return title.split("").map((char, index) => (
-      // Framer Motion span for each animated character
-      <motion.span custom={[0.15 + index * 0.02, (title.length - index) * 0.01]} variants={translate} initial="initial" animate={!isActive ? 'closed' : 'open'} key={`c_${index}`}>
-        {char}
-      </motion.span>
-    ));
-  };
-
-  // Helper function to generate anchor tags dynamically
   const generateAnchorTags = (links) => {
-  return Array.from({ length: maxLinkCount }, (_, index) => {
-    const linkText = links[index] || ''; // Get the link text or use an empty string for empty links
-    const isEmptyLink = linkText.trim() === '';
-    const linkClassName = `${styles["header-subtext-link"]} ${isEmptyLink ? styles["empty-menu-link"] : ''}`;
-    return (
-      <a className={linkClassName} href="#" key={index}>
-        {isEmptyLink ? '' : getChar(linkText)}
-      </a>
-    );
-  });
-  }
+    return Array.from({ length: maxLinkCount }, (_, index) => {
+      const { text = '', link = '#' } = links[index] || {};
+      const isEmptyLink = text.trim() === '';
+      const linkClassName = `${styles["header-subtext-link"]} primary-button ${isEmptyLink ? styles["empty-menu-link"] : ''}`;
+      return (
+        <a className={linkClassName} href={link} key={index}>
+          {isEmptyLink ? '' : text}
+        </a>
+      );
+    });
+  };
 
   return (
     <div className={styles["header-menu"]}>
       <div className={styles["header-menu-links"]}>
+
+      <div className={`${styles['reference-peace-sticker']}`}>
+            <div className={`${styles['reference-peace-sticker-top']}`}>
+                <span className="body sticker-top-line">
+                  A Max Dona
+                </span>
+                <span className="body sticker-top-line">
+                  Coming Soon
+                </span>
+                <span className="body sticker-top-line">
+                  Click to find
+                </span>
+                <span className="body sticker-top-line">
+                  A Max Dona
+                </span>
+            </div>
+            <div className={`${styles['reference-peace-sticker-bottom']}`}>
+              <div className={`${styles['reference-peace-sticker-bottom-left']}`}>
+                <span className="body sticker-bottom-left-line">
+                  Magazine
+                </span>
+                <span className="body sticker-bottom-left-line">
+                  Early 2024
+                </span>
+                <span className="body sticker-bottom-left-line">
+                  Out More
+                </span>
+                <span className="body sticker-bottom-left-line">
+                  Magazine
+                </span>
+              </div>
+              <div className={`${styles['reference-peace-sticker-bottom-asterix']} reference-peace-sticker-bottom-asterix body`}>
+                *
+              </div>
+            </div>
+          </div>
         {/* Render the navigation menu links */}
-        {['home', 'about', 'gallery', 'contact'].map((linkText) => (
-          <a className={styles["header-menu-link"]} href="#" key={linkText}>
-            {getChar(linkText)}
+        {navigationLinks.map((linkObj, index) => (
+          <a className={`${styles["header-menu-link"]}`} href={linkObj.link} key={linkObj.text}>
+            <motion.span custom={index} initial="initial" variants={translate} animate={!isActive ? 'closed' : 'open'}>
+              {linkObj.text}
+            </motion.span>
           </a>
         ))}
+
+      
+        
       </div>
       <div className={styles["header-menu-subtext"]}>
         {/* Subtext columns */}
         <div className={styles["header-menu-subtext-col-1"]}>
           <div className={styles["header-menu-subtext-links"]}>
-            {/* Render social media links */}
+            <motion.div custom={1} variants={opacity} animate={!isActive ? 'closed' : 'open'} className={`${styles["menu-time-wrap"]} ${ !isActive ? styles["empty-menu-link"] : ''}`}>
+              <Clock />
+            </motion.div>
             {generateAnchorTags(socialLinks)}
-          </div>
-        </div>
-        <div className={styles["header-menu-subtext-col-2"]}>
-          <div className={styles["header-menu-subtext-links"]}>
-            {/* Render the time in Sydney */}
-            <motion.p custom={1} variants={opacity} animate={!isActive ? 'closed' : 'open'} className={`${styles["menu-time"]} ${ !isActive ? styles["empty-menu-link"] : ''}`}>
-              <span>
-                {/* Render the animated clock */}
-                <Clock />
-              </span>
-              <span className={`${styles["menu-location"]}`}>Sydney,</span>
-              <span className={`${styles["menu-country"]}`}> Australia</span>
-            </motion.p>
-            {/* Render column 2 links */}
-            {generateAnchorTags(column2Links)}
-          </div>
-        </div>
-        <div className={styles["header-menu-subtext-col-3"]}>
-          <div className={styles["header-menu-subtext-links"]}>
-            {/* Render column 3 links */}
-            {generateAnchorTags(column3Links)}
+            <br/>
+              <a className={`${styles["header-subtext-link"]} primary-button`}>
+                English
+              </a>
+              <a className={`${styles["header-subtext-link"]} primary-button`}>
+                French
+              </a>
+              <a className={`${styles["header-subtext-link"]} primary-button`}>
+                Japanese
+              </a>
+            <br/>
+              <a className={`${styles["header-subtext-link"]} primary-button`}>
+                  Theme
+                </a>
+                <a className={`${styles["header-subtext-link"]} primary-button`}>
+                  Retro Mode
+                </a>
+                <a className={`${styles["header-subtext-link"]} primary-button`}>
+                  Motion
+                </a>
           </div>
         </div>
       </div>
